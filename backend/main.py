@@ -16,32 +16,25 @@ from models import (
     QuizSubmission, QuizScoreResponse
 )
 
-# ============================================================
 # Initialize FastAPI app
-# ============================================================
 app = FastAPI(
     title="AI Wiki Quiz Generator API",
     description="Generate quizzes from Wikipedia articles using AI",
     version="2.0.0"
 )
 
-# ============================================================
-# CORS Configuration - UPDATED FOR RENDER
-# ============================================================
-
+# CORS Configuration - UPDATED FOR RENDER DEPLOYMENT
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://thippeswamykr1204.github.io",  # ✅ Your frontend
+        "https://thippeswamykr1204.github.io",  # Production frontend URL
         "http://localhost:5173",  # Local development
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-# ============================================================
 # Startup Event
-# ============================================================
 @app.on_event("startup")
 def startup_event():
     """Initialize database on startup"""
@@ -54,10 +47,7 @@ def startup_event():
     print("=" * 60 + "\n")
 
 
-# ============================================================
 # API ROUTES
-# ============================================================
-
 @app.get("/")
 def root():
     """Root endpoint - API information"""
@@ -311,9 +301,7 @@ def get_quiz_details(quiz_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# ============================================================
 # Run the App
-# ============================================================
 if __name__ == "__main__":
     import uvicorn
     print("🚀 Starting AI Wiki Quiz Generator API...")
