@@ -1,9 +1,7 @@
 // 🌍 Dynamically set API base URL
-// If in production → use your hosted API
-// If in development → use local FastAPI backend
 const API_BASE_URL = import.meta.env.PROD
-  ? (import.meta.env.VITE_API_URL || 'https://ai-wiki-quiz-genarator-backend.onrender.com')   // ✅ change to your deployed backend
-  : 'http://localhost:8000/api';       // ✅ local backend during development
+  ? (import.meta.env.VITE_API_URL || 'https://ai-wiki-quiz-genarator-backend.onrender.com/api')
+  : 'http://localhost:8000/api';
 
 /**
  * Generate a quiz from a Wikipedia URL
@@ -15,12 +13,12 @@ export const generateQuiz = async (url) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url }),
     });
-
+    
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.detail || 'Failed to generate quiz');
     }
-
+    
     return await response.json();
   } catch (error) {
     throw new Error(error.message || 'Network error occurred');
@@ -37,12 +35,12 @@ export const previewUrl = async (url) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url }),
     });
-
+    
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.detail || 'Preview failed');
     }
-
+    
     return await response.json();
   } catch (error) {
     throw new Error(error.message || 'Network error occurred');
@@ -55,11 +53,11 @@ export const previewUrl = async (url) => {
 export const getQuizHistory = async () => {
   try {
     const response = await fetch(`${API_BASE_URL}/history`);
-
+    
     if (!response.ok) {
       throw new Error('Failed to fetch quiz history');
     }
-
+    
     return await response.json();
   } catch (error) {
     throw new Error(error.message || 'Network error occurred');
@@ -72,11 +70,11 @@ export const getQuizHistory = async () => {
 export const getQuizDetails = async (quizId) => {
   try {
     const response = await fetch(`${API_BASE_URL}/quiz/${quizId}`);
-
+    
     if (!response.ok) {
       throw new Error('Failed to fetch quiz details');
     }
-
+    
     return await response.json();
   } catch (error) {
     throw new Error(error.message || 'Network error occurred');
@@ -97,11 +95,11 @@ export const submitQuiz = async (quizId, answers, timeTaken) => {
         time_taken: timeTaken,
       }),
     });
-
+    
     if (!response.ok) {
       throw new Error('Submission failed');
     }
-
+    
     return await response.json();
   } catch (error) {
     throw new Error(error.message || 'Network error occurred');
