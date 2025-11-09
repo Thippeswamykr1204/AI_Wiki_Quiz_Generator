@@ -28,9 +28,13 @@ app = FastAPI(
 # ============================================================
 # CORS Configuration - UPDATED FOR RENDER
 # ============================================================
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow ALL origins temporarily
+    allow_origins=[
+        "https://ai-wiki-quiz-generator-frontend-e08p.onrender.com",  # ✅ your frontend Render URL
+        "http://localhost:5173",  # ✅ for local development
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
