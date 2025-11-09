@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: ai-quiz-generator
+    env: python
+    region: oregon
+    buildCommand: |
+      pip install -r backend/requirements.txt
+      cd frontend && npm install && npm run build
+    startCommand: |
+      cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        value: /opt/render/project/src/backend/quiz_history.db
